@@ -77,3 +77,24 @@ header p {
 .leaflet-popup-close-button:hover {
   color: #ffffff !important;
 }
+
+#find-me {
+  margin-top: 8px;
+  padding: 6px 16px;
+  background: #1a7a3c;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#find-me:hover {
+  background: #22a050;
+}
+
+#find-me:disabled {
+  background: #555555;
+  cursor: not-allowed;
+}
