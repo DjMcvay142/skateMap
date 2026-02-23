@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
     <title>Skate Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="css/styles.css" />
@@ -14,9 +15,17 @@
     />
   </head>
   <body>
+    <div id="loader">
+      <div class="loader-content">
+        <div class="loader-emoji">🛹</div>
+        <p>Loading spots...</p>
+      </div>
+    </div>
+
     <header>
-      <h1>skateMap</h1>
-      <button id="find-me">Find Me</button>
+      <h1>skateMap v1.0</h1>
+      <p id="spot-count">North East Skate Spots</p>
+      <button id="find-me">📍 Find Me</button>
     </header>
 
     <div id="map"></div>
