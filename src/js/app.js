@@ -8,13 +8,13 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 // Load spots and place markers
-fetch("../data/spots.json")
+fetch("./data/spots.json")
   .then((response) => response.json())
   .then((spots) => {
     spots.forEach((spot) => {
       L.marker([spot.lat, spot.lng]).addTo(map).bindPopup(`
-          <strong>${spot.name}</strong><br>
-          ${spot.description || "No description available."}
+          <div class="popup-name">${spot.name}</div>
+          <div class="popup-description">${spot.description || "No description available."}</div>
         `);
     });
   })
