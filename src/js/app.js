@@ -7,8 +7,15 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "© OpenStreetMap contributors",
 }).addTo(map);
 
-// Test marker
-L.marker([54.9783, -1.6178])
-  .addTo(map)
-  .bindPopup("Newcastle city centre")
-  .openPopup();
+// Load spots and place markers
+fetch("../data/spots.json")
+  .then((response) => response.json())
+  .then((spots) => {
+    spots.forEach((spot) => {
+      L.marker([spot.lat, spot.lng]).addTo(map).bindPopup(`
+          <strong>${spot.name}</strong><br>
+          ${spot.description || "No description available."}
+        `);
+    });
+  })
+  .catch((error) => console.error("Failed to load spots:", error));
