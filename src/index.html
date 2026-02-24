@@ -23,10 +23,25 @@
     </div>
 
     <header>
-      <h1>skateMap v1.0</h1>
+      <div class="header-inner">
+        <a id="home-link" href="index.html"><h1>skateMap v1.0</h1></a>
+        <button class="burger" id="burger" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
       <p id="spot-count">North East Skate Spots</p>
-      <button id="find-me">📍 Find Me</button>
+      <button id="find-me">Find Me</button>
     </header>
+
+    <nav id="nav-menu">
+      <button id="nav-close" aria-label="Close menu">✕</button>
+      <a href="index.html">Map</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div id="nav-overlay"></div>
 
     <div id="map"></div>
 
