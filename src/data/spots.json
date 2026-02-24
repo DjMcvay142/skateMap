@@ -1126,5 +1126,29 @@
     "description": "Super smooth flat. Tiny ledge and ledge for boardslides, pop out only though.",
     "type": "ledge",
     "author": "Native Skate Store"
+  },
+  {
+    "name": "North Shields Skatepark",
+    "lat": 55.001645015708284,
+    "lng": -1.4551350553668323,
+    "description": "A decent sized skatepark with a range of transition and street features. Be prepared to ask parents not to sit on the ledges but free parking right next to the park so whats not to love",
+    "type": "skatepark",
+    "author": "Dan"
+  },
+  {
+    "name": "Whitley Bay Skatepark",
+    "lat": 55.05073169982498,
+    "lng": -1.4491267550265419,
+    "description": "Located right on the seafront, this park flows well and has great views. Gets really packed in the summer and parking can be a nightmare",
+    "type": "skatepark",
+    "author": "Dan"
+  },
+  {
+    "name": "Blyth Isabella Skatepark",
+    "lat": 55.122195731721824,
+    "lng": -1.5272675751848104,
+    "description": "Opened in early 2025, this skatepark offer a good mix of street and transition features. Perfect for darker nights as the park is floodlit",
+    "type": "skatepark",
+    "author": "Dan"
   }
 ]
