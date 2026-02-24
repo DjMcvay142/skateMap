@@ -80,13 +80,22 @@ header h1 span {
 #spot-count {
   font-size: 0.7rem;
   color: #888888;
-  margin-top: 3px;
+  margin-top: 6px;
+  margin-bottom: 6px;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-#find-me {
+/* Header buttons */
+.header-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
   margin-top: 10px;
+}
+
+#find-me,
+#filter-btn {
   padding: 7px 20px;
   background: #7b2ff7;
   color: #ffffff;
@@ -96,16 +105,117 @@ header h1 span {
   cursor: pointer;
   font-weight: bold;
   letter-spacing: 0.5px;
+  font-family: Montserrat, sans-serif;
   transition: background 0.2s ease;
 }
 
-#find-me:hover {
+#find-me:hover,
+#filter-btn:hover {
   background: #9b5de5;
 }
 
 #find-me:disabled {
   background: #333333;
   cursor: not-allowed;
+}
+
+/* Filter close button */
+#filter-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #888888;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+#filter-close:hover {
+  color: #ffffff;
+}
+
+/* Filter panel */
+#filter-panel {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100vh;
+  background: #0a0a0a;
+  border-right: 2px solid #7b2ff7;
+  z-index: 8000;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 20px 24px;
+  gap: 12px;
+  transition: left 0.3s ease;
+}
+
+#filter-panel.open {
+  left: 0;
+}
+
+.filter-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #888888;
+  margin-bottom: 4px;
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-option {
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  color: #cccccc;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.9rem;
+  font-family: Montserrat, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.filter-option:hover {
+  border-color: #7b2ff7;
+  color: #ffffff;
+}
+
+.filter-option.active {
+  background: #7b2ff7;
+  border-color: #7b2ff7;
+  color: #ffffff;
+}
+
+/* Popup type tag */
+.popup-type {
+  display: inline-block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.popup-author {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #333333;
+  font-size: 0.75rem;
+  color: #888888;
+  letter-spacing: 0.3px;
 }
 
 /* Map */
@@ -115,13 +225,14 @@ header h1 span {
 }
 
 /* Custom marker */
-.skate-marker {
-  width: 14px;
-  height: 14px;
-  background: #7b2ff7;
-  border: 2px solid #ffffff;
+.type-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(123, 47, 247, 0.8);
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Popups */
@@ -330,4 +441,38 @@ body.page {
   color: #7b2ff7;
   text-decoration: none;
   font-weight: bold;
+}
+
+/* Legend */
+#legend {
+  position: fixed;
+  bottom: 24px;
+  left: 12px;
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid #7b2ff7;
+  border-radius: 10px;
+  padding: 10px 14px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #cccccc;
+  letter-spacing: 0.5px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
 }
