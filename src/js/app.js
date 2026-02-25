@@ -29,6 +29,8 @@ function createIcon(type) {
       box-shadow: 0 0 6px ${colour}99;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       cursor: pointer;
+      animation: markerFadeIn 0.5s ease forwards;
+      opacity: 0;
     "></div>`,
     iconSize: [14, 14],
     iconAnchor: [7, 7],
