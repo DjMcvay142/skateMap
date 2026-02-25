@@ -71,10 +71,10 @@
         </button>
       </div>
       <p id="spot-count">North East Skate Spots</p>
-      <button id="find-me">Find Me</button>
-      <button class="filter-btn" id="filter-btn" aria-label="Filter">
-        Filter
-      </button>
+      <div class="header-buttons">
+        <button id="find-me">Find Me</button>
+        <button id="filter-btn">Filter</button>
+      </div>
     </header>
     <div id="filter-panel">
       <button id="filter-close" aria-label="Close filter">✕</button>
@@ -118,8 +118,6 @@
 
     <div id="map"></div>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="js/app.js"></script>
     <div id="legend">
       <div class="legend-item">
         <span class="legend-dot" style="background: #7b2ff7"></span> Ledge
@@ -146,5 +144,17 @@
         <span class="legend-dot" style="background: #a0522d"></span> DIY
       </div>
     </div>
+    <div class="map-style-switcher">
+      <button class="style-btn active" data-style="dark" title="Dark">
+        🌙
+      </button>
+      <button class="style-btn" data-style="light" title="Light">☀️</button>
+      <button class="style-btn" data-style="satellite" title="Satellite">
+        🛰️
+      </button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>

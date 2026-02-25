@@ -197,6 +197,38 @@ header h1 span {
   color: #ffffff;
 }
 
+/* Map style switcher */
+.map-style-switcher {
+  position: fixed;
+  bottom: 24px;
+  right: 12px;
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #7b2ff7;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.style-btn {
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  line-height: 1;
+}
+
+.style-btn:hover {
+  background: #ffffff11;
+}
+
+.style-btn.active {
+  background: #7b2ff7;
+}
+
 /* Popup type tag */
 .popup-type {
   display: inline-block;

@@ -1,9 +1,47 @@
 const map = L.map("map").setView([54.9783, -1.6178], 13);
 
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
-  attribution: "© OpenStreetMap contributors",
-}).addTo(map);
+const tileLayers = {
+  dark: L.tileLayer(
+    "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
+    {
+      maxZoom: 20,
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    },
+  ),
+  light: L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+  }),
+  satellite: L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>',
+    },
+  ),
+};
+
+// Add dark as default
+tileLayers.dark.addTo(map);
+
+// Style switcher
+document.querySelectorAll(".style-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const style = btn.dataset.style;
+
+    // Swap tile layer
+    Object.values(tileLayers).forEach((layer) => map.removeLayer(layer));
+    tileLayers[style].addTo(map);
+
+    // Update active button
+    document
+      .querySelectorAll(".style-btn")
+      .forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
 
 const typeColours = {
   ledge: "#7b2ff7",
