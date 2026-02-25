@@ -59,12 +59,37 @@ body {
 
 /* Header */
 header {
-  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
   background: #0a0a0a;
-  text-align: center;
   flex-shrink: 0;
   border-bottom: 3px solid #7b2ff7;
-  position: relative;
+  gap: 12px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+  gap: 8px;
 }
 
 header h1 {
@@ -73,30 +98,65 @@ header h1 {
   color: #ffffff;
 }
 
-header h1 span {
-  color: #7b2ff7;
-}
-
 #spot-count {
   font-size: 0.7rem;
   color: #888888;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-top: 3px;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-/* Header buttons */
-.header-buttons {
+/* Search */
+.header-search {
+  position: relative;
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: center;
 }
 
+#search {
+  width: 130px;
+  padding: 5px 24px 5px 10px;
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-family: Montserrat, sans-serif;
+  outline: none;
+  transition:
+    border 0.2s ease,
+    width 0.3s ease;
+}
+
+#search:focus {
+  border-color: #7b2ff7;
+  width: 180px;
+}
+
+#search::placeholder {
+  color: #555555;
+}
+
+#search-clear {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #555555;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: none;
+  line-height: 1;
+}
+
+#search-clear:hover {
+  color: #ffffff;
+}
+
+/* Buttons */
 #find-me,
 #filter-btn {
-  padding: 7px 20px;
+  padding: 7px 14px;
   background: #7b2ff7;
   color: #ffffff;
   border: none;
@@ -107,6 +167,7 @@ header h1 span {
   letter-spacing: 0.5px;
   font-family: Montserrat, sans-serif;
   transition: background 0.2s ease;
+  white-space: nowrap;
 }
 
 #find-me:hover,
@@ -117,6 +178,31 @@ header h1 span {
 #find-me:disabled {
   background: #333333;
   cursor: not-allowed;
+}
+
+/* Burger */
+.burger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  flex-shrink: 0;
+}
+
+.burger span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+
+.burger:hover span {
+  background: #7b2ff7;
 }
 
 /* Filter close button */
@@ -197,6 +283,38 @@ header h1 span {
   color: #ffffff;
 }
 
+/* Map style switcher */
+.map-style-switcher {
+  position: fixed;
+  bottom: 24px;
+  right: 12px;
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #7b2ff7;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.style-btn {
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  line-height: 1;
+}
+
+.style-btn:hover {
+  background: #ffffff11;
+}
+
+.style-btn.active {
+  background: #7b2ff7;
+}
+
 /* Popup type tag */
 .popup-type {
   display: inline-block;
@@ -224,7 +342,7 @@ header h1 span {
   width: 100%;
 }
 
-/* Custom marker */
+/* Custom spot-marker */
 .type-dot {
   display: inline-block;
   width: 10px;
@@ -233,6 +351,24 @@ header h1 span {
   margin-right: 8px;
   vertical-align: middle;
   border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Spot-marker hover effect */
+.spot-marker:hover {
+  transform: scale(1.6);
+  box-shadow: 0 0 12px currentColor;
+}
+
+/* Spot-marker fade-in animation */
+@keyframes markerFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Popups */
@@ -275,45 +411,6 @@ header h1 span {
 
 .leaflet-popup-close-button:hover {
   color: #ffffff !important;
-}
-
-/* Burger button */
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.header-inner > a {
-  text-align: center;
-}
-
-.burger {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 8px;
-}
-
-.burger span {
-  display: block;
-  width: 28px;
-  height: 3px;
-  background: #ffffff;
-  border-radius: 2px;
-  transition: background 0.2s ease;
-}
-
-.burger:hover span {
-  background: #7b2ff7;
 }
 
 /* Nav menu */
@@ -475,4 +572,56 @@ body.page {
   margin-right: 8px;
   border: 1.5px solid rgba(255, 255, 255, 0.3);
   flex-shrink: 0;
+}
+
+/* Mobile Responsiveness */
+/* Mobile responsive */
+@media (max-width: 768px) {
+  header {
+    padding: 0.6rem 0.75rem;
+    align-items: center;
+  }
+
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .header-search {
+    width: auto;
+  }
+
+  #search {
+    width: 168px;
+  }
+
+  #search:focus {
+    width: 168px;
+  }
+
+  .header-buttons-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  #find-me,
+  #filter-btn {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+  }
+
+  .header-center {
+    flex: 1;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 1rem;
+  }
+
+  #spot-count {
+    font-size: 0.6rem;
+  }
 }

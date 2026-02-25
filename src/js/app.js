@@ -1,9 +1,47 @@
 const map = L.map("map").setView([54.9783, -1.6178], 13);
 
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
-  attribution: "© OpenStreetMap contributors",
-}).addTo(map);
+const tileLayers = {
+  dark: L.tileLayer(
+    "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
+    {
+      maxZoom: 20,
+      attribution:
+        '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    },
+  ),
+  light: L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+  }),
+  satellite: L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.esri.com/">Esri</a>',
+    },
+  ),
+};
+
+// Add dark as default
+tileLayers.dark.addTo(map);
+
+// Style switcher
+document.querySelectorAll(".style-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const style = btn.dataset.style;
+
+    // Swap tile layer
+    Object.values(tileLayers).forEach((layer) => map.removeLayer(layer));
+    tileLayers[style].addTo(map);
+
+    // Update active button
+    document
+      .querySelectorAll(".style-btn")
+      .forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
 
 const typeColours = {
   ledge: "#7b2ff7",
@@ -20,13 +58,17 @@ function createIcon(type) {
   const colour = typeColours[type] || "#7b2ff7";
   return L.divIcon({
     className: "",
-    html: `<div style="
+    html: `<div class="spot-marker" style="
       width: 14px;
       height: 14px;
       background: ${colour};
       border: 2px solid #ffffff;
       border-radius: 50%;
       box-shadow: 0 0 6px ${colour}99;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
+      animation: markerFadeIn 0.5s ease forwards;
+      opacity: 0;
     "></div>`,
     iconSize: [14, 14],
     iconAnchor: [7, 7],
@@ -49,8 +91,8 @@ fetch("./data/spots.json")
   <div class="popup-type" style="background:${
     typeColours[spot.type]
   }22; color:${typeColours[spot.type]}; border: 1px solid ${
-        typeColours[spot.type]
-      }55">${spot.type}</div>
+    typeColours[spot.type]
+  }55">${spot.type}</div>
   <div class="popup-description">${
     spot.description || "No description available."
   }</div>
@@ -58,11 +100,20 @@ fetch("./data/spots.json")
 `);
 
       allMarkers.push({ marker, type: spot.type });
+
+      marker.on("mouseover", function () {
+        this.getElement().querySelector(".spot-marker").style.transform =
+          "scale(1.6)";
+      });
+
+      marker.on("mouseout", function () {
+        this.getElement().querySelector(".spot-marker").style.transform =
+          "scale(1)";
+      });
     });
 
-    document.getElementById(
-      "spot-count"
-    ).textContent = `${spots.length} spots across the North East`;
+    document.getElementById("spot-count").textContent =
+      `${spots.length} spots across the North East`;
     document.getElementById("loader").classList.add("hidden");
   })
   .catch((error) => {
@@ -97,12 +148,6 @@ function applyFilter(type) {
   });
 }
 
-document.querySelectorAll(".filter-option").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    applyFilter(btn.dataset.type);
-  });
-});
-
 // Filter panel toggle
 const filterBtn = document.getElementById("filter-btn");
 const filterPanel = document.getElementById("filter-panel");
@@ -113,6 +158,15 @@ filterBtn.addEventListener("click", () => {
 
 document.getElementById("filter-close").addEventListener("click", () => {
   filterPanel.classList.remove("open");
+});
+
+document.querySelectorAll(".filter-option").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    applyFilter(btn.dataset.type);
+    if (window.innerWidth <= 768) {
+      filterPanel.classList.remove("open");
+    }
+  });
 });
 
 // Find Me
@@ -146,11 +200,11 @@ findMeBtn.addEventListener("click", () => {
     },
     () => {
       alert(
-        "Could not get your location. Please make sure location access is enabled."
+        "Could not get your location. Please make sure location access is enabled.",
       );
       findMeBtn.textContent = "Find Me";
       findMeBtn.disabled = false;
-    }
+    },
   );
 });
 
@@ -172,4 +226,32 @@ navOverlay.addEventListener("click", () => {
 document.getElementById("nav-close").addEventListener("click", () => {
   navMenu.classList.remove("open");
   navOverlay.classList.remove("open");
+});
+
+// Search
+const searchInput = document.getElementById("search");
+const searchClear = document.getElementById("search-clear");
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase().trim();
+
+  searchClear.style.display = query ? "block" : "none";
+
+  allMarkers.forEach(({ marker, type }) => {
+    const name = marker.getPopup().getContent().toLowerCase();
+    const matchesSearch = name.includes(query);
+    const matchesFilter = activeFilter === "all" || type === activeFilter;
+
+    if (matchesSearch && matchesFilter) {
+      marker.addTo(map);
+    } else {
+      map.removeLayer(marker);
+    }
+  });
+});
+
+searchClear.addEventListener("click", () => {
+  searchInput.value = "";
+  searchClear.style.display = "none";
+  applyFilter(activeFilter);
 });
