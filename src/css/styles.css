@@ -235,6 +235,12 @@ header h1 span {
   border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
+/* Spot-marker hover effect */
+.spot-marker:hover {
+  transform: scale(1.6);
+  box-shadow: 0 0 12px currentColor;
+}
+
 /* Popups */
 .leaflet-popup-content-wrapper {
   background: #1a1a1a;

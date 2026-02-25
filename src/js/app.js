@@ -20,13 +20,15 @@ function createIcon(type) {
   const colour = typeColours[type] || "#7b2ff7";
   return L.divIcon({
     className: "",
-    html: `<div style="
+    html: `<div class="spot-marker" style="
       width: 14px;
       height: 14px;
       background: ${colour};
       border: 2px solid #ffffff;
       border-radius: 50%;
       box-shadow: 0 0 6px ${colour}99;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
     "></div>`,
     iconSize: [14, 14],
     iconAnchor: [7, 7],
@@ -49,8 +51,8 @@ fetch("./data/spots.json")
   <div class="popup-type" style="background:${
     typeColours[spot.type]
   }22; color:${typeColours[spot.type]}; border: 1px solid ${
-        typeColours[spot.type]
-      }55">${spot.type}</div>
+    typeColours[spot.type]
+  }55">${spot.type}</div>
   <div class="popup-description">${
     spot.description || "No description available."
   }</div>
@@ -58,11 +60,20 @@ fetch("./data/spots.json")
 `);
 
       allMarkers.push({ marker, type: spot.type });
+
+      marker.on("mouseover", function () {
+        this.getElement().querySelector(".spot-marker").style.transform =
+          "scale(1.6)";
+      });
+
+      marker.on("mouseout", function () {
+        this.getElement().querySelector(".spot-marker").style.transform =
+          "scale(1)";
+      });
     });
 
-    document.getElementById(
-      "spot-count"
-    ).textContent = `${spots.length} spots across the North East`;
+    document.getElementById("spot-count").textContent =
+      `${spots.length} spots across the North East`;
     document.getElementById("loader").classList.add("hidden");
   })
   .catch((error) => {
@@ -146,11 +157,11 @@ findMeBtn.addEventListener("click", () => {
     },
     () => {
       alert(
-        "Could not get your location. Please make sure location access is enabled."
+        "Could not get your location. Please make sure location access is enabled.",
       );
       findMeBtn.textContent = "Find Me";
       findMeBtn.disabled = false;
-    }
+    },
   );
 });
 
