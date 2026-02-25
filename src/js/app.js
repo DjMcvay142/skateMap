@@ -148,12 +148,6 @@ function applyFilter(type) {
   });
 }
 
-document.querySelectorAll(".filter-option").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    applyFilter(btn.dataset.type);
-  });
-});
-
 // Filter panel toggle
 const filterBtn = document.getElementById("filter-btn");
 const filterPanel = document.getElementById("filter-panel");
@@ -164,6 +158,15 @@ filterBtn.addEventListener("click", () => {
 
 document.getElementById("filter-close").addEventListener("click", () => {
   filterPanel.classList.remove("open");
+});
+
+document.querySelectorAll(".filter-option").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    applyFilter(btn.dataset.type);
+    if (window.innerWidth <= 768) {
+      filterPanel.classList.remove("open");
+    }
+  });
 });
 
 // Find Me
@@ -223,4 +226,32 @@ navOverlay.addEventListener("click", () => {
 document.getElementById("nav-close").addEventListener("click", () => {
   navMenu.classList.remove("open");
   navOverlay.classList.remove("open");
+});
+
+// Search
+const searchInput = document.getElementById("search");
+const searchClear = document.getElementById("search-clear");
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase().trim();
+
+  searchClear.style.display = query ? "block" : "none";
+
+  allMarkers.forEach(({ marker, type }) => {
+    const name = marker.getPopup().getContent().toLowerCase();
+    const matchesSearch = name.includes(query);
+    const matchesFilter = activeFilter === "all" || type === activeFilter;
+
+    if (matchesSearch && matchesFilter) {
+      marker.addTo(map);
+    } else {
+      map.removeLayer(marker);
+    }
+  });
+});
+
+searchClear.addEventListener("click", () => {
+  searchInput.value = "";
+  searchClear.style.display = "none";
+  applyFilter(activeFilter);
 });
